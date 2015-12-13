@@ -17,12 +17,12 @@ handlers:
 - url: /
   script: index.app
   
-- url: /create_resource.*
-  script: create_resource.app
+- url: /create_session.*
+  script: create_session.app
   login: required
   
-- url: /resource.*
-  script: resource.app
+- url: /session.*
+  script: session.app
   
 - url: /user.*
   script: user.app

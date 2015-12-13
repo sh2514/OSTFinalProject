@@ -1,0 +1,33 @@
+body {
+  background-color: #FFFFCC;
+}
+
+#title {
+  color: orange;
+  display: inline-block;
+}
+
+#subtitle {
+  display: inline-block;
+}
+
+#mySessionsDiv {
+  margin: 1em;
+}
+
+#loginButton {
+  display: inline-block;
+  float: right;
+}
+
+#myReservationsDiv {
+  display: inline-block;
+  width: 40%;
+  margin: 1em;
+}
+
+#allSessionsDiv {
+  display: inline-block;
+  width: 50%;
+  margin: 1em;
+}

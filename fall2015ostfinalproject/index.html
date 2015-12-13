@@ -2,12 +2,33 @@
 <html>
 <head>
   <title>From Z to A</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/ztoa.css">
 </head>
 <body>
-  <h1>From Z to A</h1>
-  <h3>... help when you need it!</h3>
-  <div>
+  <h1 id="title">From Z to A</h1>
+  <h4 id="subtitle">... help when you need it!</h4>
+  <div id="loginButton">
     <button onclick="location.href='{{ userLogInOutLink|safe }}'">{{ userLogInOutText }}</button>
+  </div>
+  <hr>
+  
+  <div>
+    <button onclick="location.href='/create_session.html'">Create a New Session</button>
+  </div>
+  
+  <div id="mySessionsDiv">
+    <h2>Sessions I Teach</h2>
+    <p>*my sessions go here*</p>
+  </div>
+  
+  <div id="myReservationsDiv">
+    <h2>My Reservations</h2>
+    <p>*my reservations go here*</p>
+  </div>
+  
+  <div id="allSessionsDiv">
+    <h2>All Sessions</h2>
+    <p>*all sessions go here*</p>
   </div>
 
 </body>

@@ -13,19 +13,22 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
     
+def generateLogInOutContextInfo(self, context):
+  user = users.get_current_user()
+  if user:
+    context['userLogInOutLink'] = users.create_logout_url(self.request.uri)
+    context['userLogInOutText'] = 'Sign Out'
+  else:
+  	context['userLogInOutLink'] = users.create_login_url(self.request.uri)
+  	context['userLogInOutText'] = 'Sign In'
+  return context
+    
 class MainPageHandler(webapp2.RequestHandler):
   def get(self):
   	param = self.request.params
   	context = { }
   	
-  	user = users.get_current_user()
-  	if user:
-  	  context['userLogInOutLink'] = users.create_logout_url(self.request.uri)
-  	  context['userLogInOutText'] = 'Logout'
-  	else:
-  	  context['userLogInOutLink'] = users.create_login_url(self.request.uri)
-  	  context['userLogInOutText'] = 'Login'
-  	
+  	context = generateLogInOutContextInfo(self, context)
   	
   	contents = JINJA_ENVIRONMENT.get_template('index.html').render(context)
   	self.response.write(contents)
