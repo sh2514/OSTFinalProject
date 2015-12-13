@@ -1,0 +1,31 @@
+application: nyuostfinalproject
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+  
+- url: /images
+  static_dir: images
+  
+- url: /tests
+  static_dir: tests
+
+- url: /
+  script: ost.app
+
+- url: /nyu/ost.*
+  script: ost.app
+
+- url: /sample.*
+  script: sample.app
+  # login: required
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
