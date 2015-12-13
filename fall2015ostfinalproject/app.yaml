@@ -15,7 +15,20 @@ handlers:
   static_dir: tests
 
 - url: /
-  script: ost.app
+  script: index.app
+  
+- url: /create_resource.*
+  script: create_resource.app
+  login: required
+  
+- url: /resource.*
+  script: resource.app
+  
+- url: /user.*
+  script: user.app
+  login: required
+
+
 
 - url: /nyu/ost.*
   script: ost.app
