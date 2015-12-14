@@ -21,14 +21,23 @@
     <input type="submit" value="Create Session">
   </form>
   
+  {% if notification %}
+    <p class="notification">
+      {{ notification }}
+    </p>
+  {% endif %}
+  
   {% if sessionResponse == true %}
     session_GUID = {{ sessionGUID }}<br>
+    session_owner_nickname = {{ sessionOwnerNickname }}<br>
     session_owner = {{ sessionOwner }}<br>
     session_email = {{sessionEmail}}<br>
     session_name = {{ sessionName }}<br>
     session_start_time = {{ sessionStartTime }}<br>
     session_end_time = {{ sessionEndTime }}<br>
     session_tags = {{ sessionTags }}<br>
+    session_raw_start_time = {{sessionRawStartTime}}<br>
+    session_raw_end_time = {{sessionRawEndTime}}<br>
   {% endif %}
   
 </body>

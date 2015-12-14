@@ -11,6 +11,7 @@ import webapp2
 
 import login
 import sessions_datastore
+import reservations_datastore
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -33,9 +34,14 @@ class MainPageHandler(webapp2.RequestHandler):
   	  context['userEmail'] = user.email();
   	
   	"""Query all sessions"""
-  	sessions_query = sessions_datastore.Session.query(ancestor=sessions_datastore.sessions_key()).order(-sessions_datastore.Session.sessionStartTime)
+  	sessions_query = sessions_datastore.Session.query(ancestor=sessions_datastore.sessions_key()).order(-sessions_datastore.Session.sessionStartTime);
   	sessions = sessions_query.fetch(1000000);
   	context['sessions'] = sessions;
+  	
+  	"""Query all reservations"""
+  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationStartTime);
+  	reservations = reservations_query.fetch(1000000);
+  	context['reservations'] = reservations;
     
   	contents = JINJA_ENVIRONMENT.get_template('index.html').render(context)
   	self.response.write(contents)

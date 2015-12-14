@@ -12,7 +12,49 @@
   </div>
   <hr>
   
-  <h2>User</h2>
+  <h2>{{ seekUserName }}</h2>
+  <div id="userReservationsDiv">
+    <h3>Reservations:</h3>
+    {% for reservation in reservations %}
+      {% if reservation.reservationOwner == seekUserId %}
+        <span class="homePageSession">
+  	    <span class="itemMarker">Reserved:</span>
+  	    <form class="buttonForm" action="/session" method="post">
+		<input type="hidden" name="sessionGUID" value="{{ reservation.sessionGUID }}">
+	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ reservation.sessionName }}</button>
+	    </form><br>
+	    
+	    <span class="itemMarker">Instructor: </span>
+	    <form class="buttonForm" action="/user" method="post">
+		<input type="hidden" name="seekUserId" value="{{ reservation.sessionOwner }}">
+		<input type="hidden" name="seekUserName" value="{{ reservation.sessionInstructor }}">
+	    <button class="homePageUserNameButton" onclick="form.submit();">{{ reservation.sessionInstructor }}</button>
+	    </form><br>
+  	    <span class="itemMarker">Start Time: </span><span class="homePageSessionDateTime">{{ reservation.reservationStartTime }}</span><br>
+  	    <span class="itemMarker">Duration (minutes): </span><span class="homePageSessionDateTime">{{ reservation.reservationDuration }}</span><br>
+  	    <br>
+        </span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <div id="userSessionsDiv">
+    <h3>Sessions Taught:</h3>
+    {% for session in sessions %}
+      {% if session.sessionOwner == seekUserId %}
+        <span class="homePageSession">
+  	    <span class="itemMarker">Session:</span>
+		<form class="buttonForm" action="/session" method="post">
+		<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
+	    </form><br>
+  	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
+  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
+  	    <br>
+        </span>
+      {% endif %}
+    {% endfor %}
+  </div>
+  
   <p>
   (Show all reservations and resources for user)<br>
   For each reservation<br>

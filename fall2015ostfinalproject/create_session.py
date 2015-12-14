@@ -56,23 +56,31 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	
   	sessionGUID = str(uuid.uuid4());
   	
+  	context['notification'] = 'Session Created!';
+  	
   	context['sessionResponse'] = True;
   	context['sessionGUID'] = sessionGUID;
+  	context['sessionInstructor'] = users.get_current_user().nickname();
   	context['sessionOwner'] = users.get_current_user().user_id();
   	context['sessionEmail'] = users.get_current_user().email();
   	context['sessionName'] = params['session_name'];
   	context['sessionStartTime'] = parsedStartTimeInput;
   	context['sessionEndTime'] = parsedEndTimeInput;
   	context['sessionTags'] = params['session_tags'];
+  	context['sessionRawStartTime'] = rawStartTimeInput;
+  	context['sessionRawEndTime'] = rawEndTimeInput;
   	
   	session = sessions_datastore.Session(parent = sessions_datastore.sessions_key());
   	session.sessionGUID = sessionGUID;
+  	session.sessionInstructor = users.get_current_user().nickname();
   	session.sessionOwner = users.get_current_user().user_id();
   	session.sessionEmail = users.get_current_user().email();
   	session.sessionName = params['session_name'];
   	session.sessionStartTime = parsedStartTimeInput;
   	session.sessionEndTime = parsedEndTimeInput;
   	session.sessionTags = params['session_tags'];
+  	session.sessionRawStartTime = rawStartTimeInput;
+  	session.sessionRawEndTime = rawEndTimeInput;
   	session.put();
   	
   	contents = JINJA_ENVIRONMENT.get_template('create_session.html').render(context)

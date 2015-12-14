@@ -30,6 +30,19 @@ body {
   padding: 0;
 }
 
+.homePageUserNameButton {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  font: inherit;
+}
+
+.homePageUserNameButton:hover {
+  color: cornflowerblue;
+  margin: 0;
+  padding: 0;
+}
+
 .homePageSessionDateTime {
   font-size: 100%;
   font-family: "Courier New";
@@ -37,6 +50,16 @@ body {
 
 .homePageSessionTags {
   font-size: 100%;
+}
+
+.sessionDateTime {
+  font-size: 100%;
+  font-family: "Courier New";
+}
+
+.notification {
+  color: cornflowerblue;
+  font-size: 120%;
 }
 
 #title {
@@ -87,6 +110,20 @@ body {
 #allSessionsDiv {
   display: inline-block;
   width: 40%;
+  margin: 1em;
+  vertical-align: top;
+}
+
+#userReservationsDiv {
+  display: inline-block;
+  width: 40%;
+  margin: 1em;
+  vertical-align: top;
+}
+
+#userSessionsDiv {
+  display: inline-block;
+  width 40%;
   margin: 1em;
   vertical-align: top;
 }

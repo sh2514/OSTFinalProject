@@ -12,28 +12,65 @@
   </div>
   <hr>
   
-  <h2>Session</h2>
-  <h3>Name of Session</h3>
-  
-  <p>
-  if user is owner<br>
-    &nbsp&nbspshow information in form with an "edit session" button<br>
-  else<br>
-    &nbsp&nbspshow information<br>
-    &nbsp&nbspshow form to reserve session with "reserve session button<br>
-  show button for RSS link
-  </p>
-  
-  {% if session %}
+  <h2>{{ session.sessionName }}</h2>
+  {% if session and userId == session.sessionOwner %}
+    <form action="/session/" method="post">
+      <input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+      <span class="itemMarker">Instructor:</span> {{ session.sessionInstructor }}<br>
+      <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
+      <span class="itemMarker">Session Name:</span> <input class="createSessionInput" type="text" name="session_name" value="{{ session.sessionName }}" required><br>
+      <span class="itemMarker">Start Time:</span> <input class="createSessionInput" type="datetime-local" name="session_start_time" value="{{ session.sessionRawStartTime }}" required><br>
+      <span class="itemMarker">End Time:</span> <input class="createSessionInput" type="datetime-local" name="session_end_time" value="{{ session.sessionRawEndTime }}" required><br>
+      <span class="itemMarker">Tags:</span> <input class="createSessionInput" type="text" name="session_tags" value="{{ session.sessionTags }}" required><br>
+      <br>
+      <input type="submit" name="edit_session_submit" value="Make Changes To Session">
+    </form>
+  {% else %}
     <p>
-    {{ session.sessionOwner }}<br>
-    {{ session.sessionEmail }}<br>
-    {{ session.sessionName }}<br>
-    {{ session.sessionStartTime }}<br>
-    {{ session.sessionEndTime }}<br>
-    {{ session.sessionTags }}<br>
+      <span class="itemMarker">Instructor:</span> {{ session.sessionInstructor }}<br>
+      <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
+      <span class="itemMarker">Start Time:</span> <span class="sessionDateTime">{{ session.sessionStartTime }}</span><br>
+      <span class="itemMarker">End Time:</span> <span class="sessionDateTime">{{ session.sessionEndTime }}</span><br>
+      <span class="itemMarker">Tags:</span> {{ session.sessionTags }}<br>
+    </p>
+    </br>
+    
+    <form action="/session/" method="post">
+      <strong>Reserve Session:</strong>
+	  <br>
+      <input type = "hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+      <input type = "hidden" name="sessionInstructor" value="{{ session.sessionInstructor }}">
+      <input type = "hidden" name="sessionOwner" value="{{ session.sessionOwner }}">
+      <input type = "hidden" name="sessionName" value="{{ session.sessionName }}">
+      Start Time: <input class="createSessionInput" type="datetime-local" name="reservation_start_time" required><br>
+      Duration (minutes): <input class="createSessionInput" type="text" name="reservation_duration" required><br>
+      <input type="submit" name="reserve_session_submit" value="Reserve">
+    </form>
+  {% endif %}
+  <p>
+  {% if notification %}
+    <p class="notification">
+      {{ notification }}
     </p>
   {% endif %}
+  <br>
+  <hr>
+  <br>
+  <button>Get RSS</button>
   
+  {% if reservationGUID %}
+    <p>
+      reservationGUID = {{ reservationGUID }}<br>
+      reservationOwnerName = {{ reservationOwnerName }}<br>
+      reservationOwner = {{ reservationOwner }}<br>
+      reservationEmail = {{ reservationEmail }}<br>
+      reservationStartTime = {{ reservationStartTime }}<br>
+      reservationDuration = {{ reservationDuration }}<br>
+      sessionGUID = {{ sessionGUID }}<br>
+      sessionInstructor = {{ sessionInstructor }}<br>
+      sessionOwner = {{ sessionOwner }}<br>
+      sessionName = {{ sessionName }}<br>
+    <p>
+  {% endif %}
 </body>
 </html>

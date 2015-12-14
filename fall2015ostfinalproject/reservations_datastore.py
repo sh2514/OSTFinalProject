@@ -5,9 +5,13 @@ def reservations_key():
 
 class Reservation(ndb.Model):
   """Model for representing an individual reservations entry."""
+  reservationGUID = ndb.StringProperty(indexed = True);
+  reservationOwnerName = ndb.StringProperty(indexed = True);
   reservationOwner = ndb.StringProperty(indexed = True);
   reservationEmail = ndb.StringProperty(indexed = True);
+  reservationStartTime = ndb.DateTimeProperty(indexed = True);
+  reservationDuration = ndb.IntegerProperty(indexed = False);
+  sessionGUID = ndb.StringProperty(indexed = False);
+  sessionInstructor = ndb.StringProperty(indexed = False);
   sessionOwner = ndb.StringProperty(indexed = False);
   sessionName = ndb.StringProperty(indexed = False);
-  sessionStartTime = ndb.DateTimeProperty(indexed = True);
-  sessionDuration = ndb.IntegerProperty(indexed = False);
