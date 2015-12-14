@@ -19,17 +19,32 @@
   <div id="mySessionsDiv">
     <h2>Sessions I Teach</h2>
     <p>*my sessions go here*</p>
+    <p>(sessions should be links)</p>
   </div>
   
   <div id="myReservationsDiv">
     <h2>My Reservations</h2>
     <p>*my reservations go here*</p>
+    <p>(sessions should be links)</p>
+    <p>include a delete reservation button</p>
   </div>
   
   <div id="allSessionsDiv">
     <h2>All Sessions</h2>
     <p>*all sessions go here*</p>
+    <p>(sessions should be links)</p>
   </div>
+  
+  {% for session in sessions %}
+    <p>
+    {{ session.sessionOwner }}<br>
+  	{{ session.sessionEmail }}<br>
+  	{{ session.sessionName }}<br>
+  	{{ session.sessionStartTime }}<br>
+  	{{ session.sessionEndTime }}<br>
+  	{{ session.sessionTags }}<br>
+    </p>
+  {% endfor %}
 
 </body>
 </html>

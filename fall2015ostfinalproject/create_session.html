@@ -13,6 +13,22 @@
   <hr>
   
   <h2>Create a New Session</h2>
-
+  <form action="/create_session/" method="post">
+    <input class="createSessionInput" type="text" name="session_name" required> Session Name<br><br>
+    <input class="createSessionInput" type="datetime-local" name="session_start_time" required> Start Time<br><br>
+    <input class="createSessionInput" type="datetime-local" name="session_end_time" required> End Time<br><br>
+    <input class="createSessionInput" type="text" name="session_tags"> Tags (separate using commas)<br><br>
+    <input type="submit" value="Create Session">
+  </form>
+  
+  {% if sessionResponse == true %}
+    session_owner = {{ sessionOwner }}<br>
+    session_email = {{sessionEmail}}<br>
+    session_name = {{ sessionName }}<br>
+    session_start_time = {{ sessionStartTime }}<br>
+    session_end_time = {{ sessionEndTime }}<br>
+    session_tags = {{ sessionTags }}<br>
+  {% endif %}
+  
 </body>
 </html>

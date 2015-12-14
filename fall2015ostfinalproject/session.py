@@ -17,7 +17,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     
 class SessionPageHandler(webapp2.RequestHandler):
   def get(self):
-  	param = self.request.params
+  	params = self.request.params
   	context = { }
   	
   	context = login.generateLogInOutContextInfo(self, context)

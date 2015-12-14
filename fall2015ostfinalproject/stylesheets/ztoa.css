@@ -2,6 +2,10 @@ body {
   background-color: #FFFFCC;
 }
 
+.createSessionInput {
+  width: 250px;
+}
+
 #title {
   color: orange;
   display: inline-block;
