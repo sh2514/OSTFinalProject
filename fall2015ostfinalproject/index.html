@@ -19,25 +19,60 @@
   <div id="mySessionsDiv">
     <h2>Sessions I Teach</h2>
     <p>*my sessions go here*</p>
+    <p>(sessions should match my name)</p>
+    <p>(sessions should not be expired)</p>
     <p>(sessions should be links)</p>
+    
+    {% for session in sessions %}
+      {% if user and session.sessionOwner == userId %}
+        <span class="homePageSession">
+  	    <span class="itemMarker">Session:</span>
+		<form class="buttonForm" action="/session" method="post">
+		<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
+	    </form><br>
+  	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
+  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
+  	    <br>
+        </span>
+      {% endif %}
+    {% endfor %}
   </div>
   </br>
   
   <div id="myReservationsDiv">
     <h2>My Reservations</h2>
     <p>*my reservations go here*</p>
+    <p>(reservations should match my name)</p>
+    <p>(reservations should not be expired)</p>
     <p>(sessions should be links)</p>
-    <p>include a delete reservation button</p>
+    <p>include a delete reservation button for each</p>
   </div>
   
   <div id="allSessionsDiv">
     <h2>All Sessions</h2>
     <p>*all sessions go here*</p>
+    <p>(sessions should not be expired)</p>
     <p>(sessions should be links)</p>
+    
+    {% for session in sessions %}
+      {% if user and session.sessionOwner == userId %}
+        <span class="homePageSession">
+  	    <span class="itemMarker">Session:</span>
+		<form class="buttonForm" action="/session" method="post">
+	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
+	    </form><br>
+  	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
+  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
+  	    <br>
+        </span>
+      {% endif %}
+    {% endfor %}
   </div>
   
   {% for session in sessions %}
     <p>
+    {{ session.sessionGUID }}<br>
     {{ session.sessionOwner }}<br>
   	{{ session.sessionEmail }}<br>
   	{{ session.sessionName }}<br>

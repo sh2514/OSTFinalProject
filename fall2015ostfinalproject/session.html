@@ -23,5 +23,17 @@
     &nbsp&nbspshow form to reserve session with "reserve session button<br>
   show button for RSS link
   </p>
+  
+  {% if session %}
+    <p>
+    {{ session.sessionOwner }}<br>
+    {{ session.sessionEmail }}<br>
+    {{ session.sessionName }}<br>
+    {{ session.sessionStartTime }}<br>
+    {{ session.sessionEndTime }}<br>
+    {{ session.sessionTags }}<br>
+    </p>
+  {% endif %}
+  
 </body>
 </html>

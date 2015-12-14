@@ -2,6 +2,7 @@ import cgi
 import os
 import urllib
 import datetime
+import uuid
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -53,7 +54,10 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	endTimeTokens = endTime.split(":");
   	parsedEndTimeInput = datetime.datetime(int(endDateTokens[0]), int(endDateTokens[1]), int(endDateTokens[2]), int(endTimeTokens[0]), int(endTimeTokens[1]));
   	
+  	sessionGUID = str(uuid.uuid4());
+  	
   	context['sessionResponse'] = True;
+  	context['sessionGUID'] = sessionGUID;
   	context['sessionOwner'] = users.get_current_user().user_id();
   	context['sessionEmail'] = users.get_current_user().email();
   	context['sessionName'] = params['session_name'];
@@ -62,6 +66,7 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	context['sessionTags'] = params['session_tags'];
   	
   	session = sessions_datastore.Session(parent = sessions_datastore.sessions_key());
+  	session.sessionGUID = sessionGUID;
   	session.sessionOwner = users.get_current_user().user_id();
   	session.sessionEmail = users.get_current_user().email();
   	session.sessionName = params['session_name'];
