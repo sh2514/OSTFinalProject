@@ -25,6 +25,7 @@ class MainPageHandler(webapp2.RequestHandler):
   	"""Generate log in/out information"""
   	context = login.generateLogInOutContextInfo(self, context)
   	
+  	"""Query all sessions"""
   	sessions_query = sessions_datastore.Session.query(ancestor=sessions_datastore.sessions_key()).order(-sessions_datastore.Session.sessionStartTime)
   	sessions = sessions_query.fetch(1000000);
   	context['sessions'] = sessions;

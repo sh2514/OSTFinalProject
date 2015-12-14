@@ -4,7 +4,7 @@ def sessions_key():
   return ndb.Key('Sessions', 'default_sessions')
 
 class Session(ndb.Model):
-  """Model for representing an individual Sessions entry."""
+  """Model for representing an individual sessions entry."""
   sessionOwner = ndb.StringProperty(indexed = False);
   sessionEmail = ndb.StringProperty(indexed = False);
   sessionName = ndb.StringProperty(indexed = True);

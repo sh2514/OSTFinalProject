@@ -11,6 +11,26 @@ body {
   display: inline-block;
 }
 
+#titleLink:link {
+  color: orange;
+  text-decoration: none;
+}
+
+#titleLink:visited {
+  color: orange;
+  text-decoration: none;
+}
+
+#titleLink:hover {
+  color: orange;
+  text-decoration: none;
+}
+
+#titleLink:active {
+  color: orange;
+  text-decoration: none;
+}
+
 #subtitle {
   display: inline-block;
 }
@@ -28,10 +48,12 @@ body {
   display: inline-block;
   width: 30%;
   margin: 1em;
+  vertical-align: top;
 }
 
 #allSessionsDiv {
   display: inline-block;
-  width: 50%;
+  width: 40%;
   margin: 1em;
+  vertical-align: top;
 }
