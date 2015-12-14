@@ -2,10 +2,17 @@
 <html>
 <head>
   <title>Session Page</title>
-  <link rel="stylesheet" type="text/css" href="ztoa.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/ztoa.css">
 </head>
 <body>
-  <h1>Session</h1>
+  <h1 id="title">From Z to A</h1>
+  <h4 id="subtitle">... help when you need it!</h4>
+  <div id="loginButton">
+    <button onclick="location.href='{{ userLogInOutLink|safe }}'">{{ userLogInOutText }}</button>
+  </div>
+  <hr>
+  
+  <h2>Session</h2>
 
 </body>
 </html>
