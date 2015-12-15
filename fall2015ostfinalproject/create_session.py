@@ -81,7 +81,15 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	session.sessionTags = params['session_tags'];
   	session.sessionRawStartTime = rawStartTimeInput;
   	session.sessionRawEndTime = rawEndTimeInput;
-  	session.put();
+	  
+	present = datetime.datetime.now();
+	if session.sessionStartTime > present and session.sessionStartTime < session.sessionEndTime:
+  	  session.put(); 
+  	  context['notification'] = 'Session created!';
+  	elif session.sessionStartTime <= present:
+  	  context['notification'] = 'Invalid start time specified!';
+  	elif session.sessionStartTime > session.sessionEndTime:
+  	  context['notification'] = 'Invalid end time specified!';
   	
   	contents = JINJA_ENVIRONMENT.get_template('create_session.html').render(context)
   	self.response.write(contents)

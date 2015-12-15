@@ -14,6 +14,11 @@ indexes:
   ancestor: yes
   properties:
   - name: reservationStartTime
+
+- kind: Reservation
+  ancestor: yes
+  properties:
+  - name: reservationStartTime
     direction: desc
 
 - kind: Session

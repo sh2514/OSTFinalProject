@@ -44,12 +44,16 @@ class SessionPageHandler(webapp2.RequestHandler):
   	  if session.sessionGUID == params['sessionGUID']:
 		context['session'] = session;
 		thisSession = session;
+		
+	"""Query all reservations"""
+  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(reservations_datastore.Reservation.reservationStartTime);
+  	reservations = reservations_query.fetch(1000000);
+  	context['reservations'] = reservations;
   	    
   	    
   	    
   	"""Check if modify session form had been submitted"""
-  	if 'edit_session_submit' in params:
-  	  context['notification'] = 'Session modifications submitted!';
+  	if 'edit_session_submit' in params:	
   	  thisSession.sessionName = params['session_name'];
   	  
   	  rawStartTimeInput = params['session_start_time'];
@@ -71,17 +75,21 @@ class SessionPageHandler(webapp2.RequestHandler):
   	  thisSession.sessionRawStartTime = params['session_start_time'];
   	  thisSession.sessionRawEndTime = params['session_end_time'];
   	  thisSession.sessionTags = params['session_tags'];
-  	  thisSession.put();
-  	  context['session'] = thisSession;
   	  
-  	  
-  	  
+  	  present = datetime.datetime.now();
+  	  if thisSession.sessionStartTime > present and thisSession.sessionStartTime < thisSession.sessionEndTime:
+  	  	thisSession.put();
+		context['notification'] = 'Session modifications submitted!';
+  	  elif thisSession.sessionStartTime <= present:
+  	  	context['notification'] = 'Invalid start time specified!';
+	  elif thisSession.sessionStartTime > session.sessionEndTime:
+  	  	context['notification'] = 'Invalid end time specified!';
+  	  context['session'] = thisSession;  	  
+
+
+
   	"""Check if a reservation form had been submitted"""
   	if user and 'reserve_session_submit' in params:
-  	  """Check if reservation valid"""
-  	  
-  	  
-  	  
   	  rawStartTimeInput = params['reservation_start_time'];
   	  startDate = rawStartTimeInput.split("T")[0];
   	  startTime = rawStartTimeInput.split("T")[1];
@@ -101,8 +109,31 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  reservation.sessionInstructor = params['sessionInstructor'];
 	  reservation.sessionOwner = params['sessionOwner'];
 	  reservation.sessionName = params['sessionName'];
-	  reservation.put();
-	  context['notification'] = 'Reservation made!';
+	  
+	  """Check if reservation valid before storing"""
+	  for reservation in reservations:
+	  	if reservation.reservationOwner == user.user_id() and reservation.sessionGUID == params['sessionGUID']:
+	  	  alreadyReserved = True;
+	  	else:
+	  	  alreadyReserved = False;
+	  
+	  present = datetime.datetime.now();
+	  durationInSeconds = reservation.reservationDuration * 60;
+	  if alreadyReserved:
+	  	context['notification'] = 'You have already reserved the session!';
+	  elif parsedStartTimeInput > present and parsedStartTimeInput >= thisSession.sessionStartTime and durationInSeconds > 0:
+	    potentialEndTime = parsedStartTimeInput + datetime.timedelta(seconds = durationInSeconds);
+	    if potentialEndTime <= thisSession.sessionEndTime:
+	      reservation.put();
+	      context['notification'] = 'Reservation made!';
+	    else:
+	      context['notification'] = 'Duration specified is too long!';
+	  elif durationInSeconds <= 0:
+	  	context['notification'] = 'Invalid duration specified!';
+	  elif parsedStartTimeInput < thisSession.sessionStartTime:
+	  	context['notification'] = 'Invalid start time specified!';
+	  elif parsedStartTimeInput <= present:
+	  	context['notification'] = 'Invalid start time specified!';
 	  
 	  context['reservationGUID'] = reservation.reservationGUID;
 	  context['reservationOwnerName'] = reservation.reservationOwnerName;

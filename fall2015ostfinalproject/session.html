@@ -12,12 +12,21 @@
   </div>
   <hr>
   
-  <h2>{{ session.sessionName }}</h2>
-  {% if session and userId == session.sessionOwner %}
+  <form class="buttonForm" action="/session" method="post">
+	<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+	<button class="homePageSessionNameButton" onclick="form.submit();"><h2>{{ session.sessionName }}</h2></button>
+  </form><br>
+  
+  {% if session and userId == session.sessionOwner %}    
+    <span class="itemMarker">Instructor: </span>
+	<form class="buttonForm" action="/user" method="post">
+	  <input type="hidden" name="seekUserId" value="{{ session.sessionOwner }}">
+	  <input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
+      <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
+	</form><br>
+    <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>  
     <form action="/session/" method="post">
-      <input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
-      <span class="itemMarker">Instructor:</span> {{ session.sessionInstructor }}<br>
-      <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
+      <input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">  
       <span class="itemMarker">Session Name:</span> <input class="createSessionInput" type="text" name="session_name" value="{{ session.sessionName }}" required><br>
       <span class="itemMarker">Start Time:</span> <input class="createSessionInput" type="datetime-local" name="session_start_time" value="{{ session.sessionRawStartTime }}" required><br>
       <span class="itemMarker">End Time:</span> <input class="createSessionInput" type="datetime-local" name="session_end_time" value="{{ session.sessionRawEndTime }}" required><br>
@@ -26,13 +35,16 @@
       <input type="submit" name="edit_session_submit" value="Make Changes To Session">
     </form>
   {% else %}
-    <p>
-      <span class="itemMarker">Instructor:</span> {{ session.sessionInstructor }}<br>
-      <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
-      <span class="itemMarker">Start Time:</span> <span class="sessionDateTime">{{ session.sessionStartTime }}</span><br>
-      <span class="itemMarker">End Time:</span> <span class="sessionDateTime">{{ session.sessionEndTime }}</span><br>
-      <span class="itemMarker">Tags:</span> {{ session.sessionTags }}<br>
-    </p>
+    <span class="itemMarker">Instructor: </span>
+	<form class="buttonForm" action="/user" method="post">
+	  <input type="hidden" name="seekUserId" value="{{ session.sessionOwner }}">
+	  <input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
+      <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
+	</form><br>
+    <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
+    <span class="itemMarker">Start Time:</span> <span class="sessionDateTime">{{ session.sessionStartTime }}</span><br>
+    <span class="itemMarker">End Time:</span> <span class="sessionDateTime">{{ session.sessionEndTime }}</span><br>
+    <span class="itemMarker">Tags:</span> {{ session.sessionTags }}<br>
     </br>
     
     <form action="/session/" method="post">
@@ -53,6 +65,38 @@
       {{ notification }}
     </p>
   {% endif %}
+  <br>
+  <hr>
+  <br>
+  
+  <h3>Active Reservations:</h3>
+    {% for reservation in reservations %}
+      {% if reservation.sessionGUID == session.sessionGUID %}
+        <span class="homePageSession">
+  	    <span class="itemMarker">Session:</span>
+  	    <form class="buttonForm" action="/session" method="post">
+		  <input type="hidden" name="sessionGUID" value="{{ reservation.sessionGUID }}">
+	      <button class="homePageSessionNameButton" onclick="form.submit();">{{ reservation.sessionName }}</button>
+	    </form><br>
+	    <span class="itemMarker">Instructor: </span>
+	    <form class="buttonForm" action="/user" method="post">
+		  <input type="hidden" name="seekUserId" value="{{ reservation.sessionOwner }}">
+		  <input type="hidden" name="seekUserName" value="{{ reservation.sessionInstructor }}">
+	      <button class="homePageUserNameButton" onclick="form.submit();">{{ reservation.sessionInstructor }}</button>
+	    </form><br>
+	    <span class="itemMarker">Reserved by: </span>
+	    <form class="buttonForm" action="/user" method="post">
+		  <input type="hidden" name="seekUserId" value="{{ reservation.reservationOwner }}">
+		  <input type="hidden" name="seekUserName" value="{{ reservation.reservationOwnername }}">
+	      <button class="homePageUserNameButton" onclick="form.submit();">{{ reservation.reservationOwnerName }}</button>
+	    </form><br>
+  	    <span class="itemMarker">Start Time: </span><span class="homePageSessionDateTime">{{ reservation.reservationStartTime }}</span><br>
+  	    <span class="itemMarker">Duration (minutes): </span><span class="homePageSessionDateTime">{{ reservation.reservationDuration }}</span><br>
+  	    <br>
+        </span>
+      {% endif %}
+    {% endfor %}
+  
   <br>
   <hr>
   <br>
