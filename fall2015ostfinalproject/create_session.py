@@ -39,6 +39,11 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	"""Generate log in/out information"""
   	context = login.generateLogInOutContextInfo(self, context)
   	
+  	"""Query all sessions"""
+  	sessions_query = sessions_datastore.Session.query(ancestor=sessions_datastore.sessions_key()).order(-sessions_datastore.Session.sessionStartTime);
+  	sessions = sessions_query.fetch(1000000);
+  	context['sessions'] = sessions;
+  	
   	"""Parse HTML date and time inputs into datetime object"""
   	rawStartTimeInput = params['session_start_time'];
   	startDate = rawStartTimeInput.split("T")[0];
@@ -84,8 +89,17 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
 	  
 	present = datetime.datetime.now();
 	if session.sessionStartTime > present and session.sessionStartTime < session.sessionEndTime:
-  	  session.put(); 
-  	  context['notification'] = 'Session created!';
+	  isValidNewSession = True;
+	  
+	  for sessionClone in sessions:
+	    if (session.sessionStartTime >= sessionClone.sessionStartTime and session.sessionStartTime < sessionClone.sessionEndTime) or (sessionClone.sessionEndTime > session.sessionStartTime and session.sessionEndTime <= sessionClone.sessionEndTime):
+	      isValidNewSession = False;
+		
+	  if isValidNewSession:
+	    session.put();
+	    context['notification'] = 'Session created!';
+	  else:
+	    context['notification'] = 'Session overlaps an existing session!';
   	elif session.sessionStartTime <= present:
   	  context['notification'] = 'Invalid start time specified!';
   	elif session.sessionStartTime > session.sessionEndTime:
