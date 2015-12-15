@@ -71,7 +71,7 @@
   
   <h3>Active Reservations:</h3>
     {% for reservation in reservations %}
-      {% if reservation.sessionGUID == session.sessionGUID %}
+      {% if reservation.sessionGUID == session.sessionGUID and (reservation.reservationStartTime + datetime.timedelta(seconds = 60 * reservation.reservationDuration)) > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Session:</span>
   	    <form class="buttonForm" action="/session" method="post">

@@ -111,11 +111,10 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  reservation.sessionName = params['sessionName'];
 	  
 	  """Check if reservation valid before storing"""
-	  for reservation in reservations:
-	  	if reservation.reservationOwner == user.user_id() and reservation.sessionGUID == params['sessionGUID']:
+	  alreadyReserved = False;
+	  for reservationClone in reservations:
+	  	if reservationClone.reservationOwner == user.user_id() and reservationClone.sessionGUID == params['sessionGUID']:
 	  	  alreadyReserved = True;
-	  	else:
-	  	  alreadyReserved = False;
 	  
 	  present = datetime.datetime.now();
 	  durationInSeconds = reservation.reservationDuration * 60;
@@ -147,6 +146,10 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  context['sessionName'] = reservation.sessionName;
 	elif 'reserve_session_submit' in params:
 	  context['notification'] = 'You must be signed in to make a reservation!';
+  	  	
+  	
+  	context['present'] = datetime.datetime.now();
+  	context['datetime'] = datetime;  	
   	  	
   	contents = JINJA_ENVIRONMENT.get_template('session.html').render(context)
   	self.response.write(contents)

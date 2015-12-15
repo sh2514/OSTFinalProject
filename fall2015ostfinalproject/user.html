@@ -12,11 +12,15 @@
   </div>
   <hr>
   
-  <h2>{{ seekUserName }}</h2>
+  <form class="buttonForm" action="/user" method="post">
+	<input type="hidden" name="seekUserId" value="{{ seekUserId }}">
+	<input type="hidden" name="seekUserName" value="{{ seekUserName }}">
+	<button class="homePageUserNameButton" onclick="form.submit();"><h2>{{ seekUserName }}</h2></button>
+  </form><br>
   <div id="userReservationsDiv">
-    <h3>Reservations:</h3>
+    <h3>Active Reservations:</h3>
     {% for reservation in reservations %}
-      {% if reservation.reservationOwner == seekUserId %}
+      {% if reservation.reservationOwner == seekUserId and (reservation.reservationStartTime + datetime.timedelta(seconds = 60 * reservation.reservationDuration)) > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Reserved:</span>
   	    <form class="buttonForm" action="/session" method="post">
@@ -38,9 +42,9 @@
     {% endfor %}
   </div>
   <div id="userSessionsDiv">
-    <h3>Sessions Taught:</h3>
+    <h3>Sessions Currently Taught:</h3>
     {% for session in sessions %}
-      {% if session.sessionOwner == seekUserId %}
+      {% if session.sessionOwner == seekUserId and session.sessionEndTime > present%}
         <span class="homePageSession">
   	    <span class="itemMarker">Session:</span>
 		<form class="buttonForm" action="/session" method="post">

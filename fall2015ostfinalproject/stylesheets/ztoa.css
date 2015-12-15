@@ -62,6 +62,10 @@ body {
   font-size: 120%;
 }
 
+.cancelButton {
+  background-color: snow;
+}
+
 #title {
   color: orange;
   display: inline-block;

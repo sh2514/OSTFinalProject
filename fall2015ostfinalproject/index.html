@@ -22,9 +22,8 @@
     <p>(sessions should match my name)</p>
     <p>(sessions should not be expired)</p>
     <p>(sessions should be links)</p>
-    
     {% for session in sessions %}
-      {% if user and session.sessionOwner == userId %}
+      {% if user and session.sessionOwner == userId and session.sessionEndTime > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Session:</span>
 		<form class="buttonForm" action="/session" method="post">
@@ -49,7 +48,7 @@
     <p>include a delete reservation button for each</p>
     
     {% for reservation in reservations %}
-      {% if user and reservation.reservationOwner == userId %}
+      {% if user and reservation.reservationOwner == userId and (reservation.reservationStartTime + datetime.timedelta(seconds = 60 * reservation.reservationDuration)) > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Reserved:</span>
   	    <form class="buttonForm" action="/session" method="post">
@@ -66,6 +65,10 @@
   	    <span class="itemMarker">Start Time: </span><span class="homePageSessionDateTime">{{ reservation.reservationStartTime }}</span><br>
   	    <span class="itemMarker">Duration (minutes): </span><span class="homePageSessionDateTime">{{ reservation.reservationDuration }}</span><br>
   	    
+		<form action="/" method="post">
+		<input type="hidden" name="reservationGUID" value="{{ reservation.reservationGUID }}">
+		<input class="cancelButton" type="submit" name="delete_form_submit" value="Cancel Reservation">
+		</form>
   	    
   	    <br>
         </span>
@@ -80,17 +83,25 @@
     <p>(sessions should be links)</p>
     
     {% for session in sessions %}
+      {% if session.sessionEndTime > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Session:</span>
 		<form class="buttonForm" action="/session" method="post">
 		<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
 	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
 	    </form><br>
-	    <span class="itemMarker">Instructor:</span> {{ session.sessionInstructor }}</span><br>
-  	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
+	    
+	    <span class="itemMarker">Instructor: </span>
+	    <form class="buttonForm" action="/user" method="post">
+		<input type="hidden" name="seekUserId" value="{{ session.sessionOwner }}">
+		<input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
+	    <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
+	    </form><br>
+	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
   	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
   	    <br>
         </span>
+      {% endif %}
     {% endfor %}
   </div>
   

@@ -1,6 +1,7 @@
 import cgi
 import os
 import urllib
+import datetime
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -44,6 +45,9 @@ class UserPageHandler(webapp2.RequestHandler):
   	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationStartTime);
   	reservations = reservations_query.fetch(1000000);
   	context['reservations'] = reservations;
+  	
+  	context['present'] = datetime.datetime.now();
+  	context['datetime'] = datetime; 
   	
   	contents = JINJA_ENVIRONMENT.get_template('user.html').render(context)
   	self.response.write(contents)

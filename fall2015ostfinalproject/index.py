@@ -1,6 +1,7 @@
 import cgi
 import os
 import urllib
+import datetime
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -42,9 +43,27 @@ class MainPageHandler(webapp2.RequestHandler):
   	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationStartTime);
   	reservations = reservations_query.fetch(1000000);
   	context['reservations'] = reservations;
+  	
+  	context['present'] = datetime.datetime.now();
+  	context['datetime'] = datetime;
     
   	contents = JINJA_ENVIRONMENT.get_template('index.html').render(context)
   	self.response.write(contents)
+  	
+  	
+  	
+  def post(self):
+  	params = self.request.params;
+	  
+	"""Query all reservations"""
+  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(reservations_datastore.Reservation.reservationStartTime);
+  	reservations = reservations_query.fetch(1000000);
+	  
+	for reservation in reservations:
+	  if reservation.reservationGUID == params['reservationGUID']:
+	    reservation.key.delete();
+	  
+	self.get();
   	
 app = webapp2.WSGIApplication([
     ('/', MainPageHandler)
