@@ -31,7 +31,14 @@
 	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
 	    </form><br>
   	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
-  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
+  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">
+		  {% for tag in str(session.sessionTags).split(",") %}
+            <form class="buttonForm" action="/tag/" method="post">
+              <input type="hidden" name="tagName" value="{{ tag }}">
+              <button class="tagButton" onclick="form.submit();">{{ tag.strip() }}</button>
+            </form>
+  	      {% endfor %}
+		</span><br> 	    
   	    <br>
         </span>
       {% endif %}
@@ -97,8 +104,16 @@
 		<input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
 	    <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
 	    </form><br>
-	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
-  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">{{ session.sessionTags }}</span><br>
+	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>  	    
+  	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">
+		  {% for tag in str(session.sessionTags).split(",") %}
+            <form class="buttonForm" action="/tag/" method="post">
+              <input type="hidden" name="tagName" value="{{ tag }}">
+              <button class="tagButton" onclick="form.submit();">{{ tag.strip() }}</button>
+            </form>
+  	      {% endfor %}
+		</span><br>
+  	    
   	    <br>
         </span>
       {% endif %}

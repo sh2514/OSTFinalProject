@@ -24,13 +24,22 @@
 	  <input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
       <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
 	</form><br>
-    <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>  
+    <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
+	
+	<span class="itemMarker">Tags:</span>
+    {% for tag in tags %}
+      <form class="buttonForm" action="/tag/" method="post">
+        <input type="hidden" name="tagName" value="{{ tag }}">
+        <button class="tagButton" onclick="form.submit();">{{ tag.strip() }}</button>
+      </form>
+    {% endfor %}
+	    
     <form action="/session/" method="post">
       <input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">  
       <span class="itemMarker">Session Name:</span> <input class="createSessionInput" type="text" name="session_name" value="{{ session.sessionName }}" required><br>
       <span class="itemMarker">Start Time:</span> <input class="createSessionInput" type="datetime-local" name="session_start_time" value="{{ session.sessionRawStartTime }}" required><br>
       <span class="itemMarker">End Time:</span> <input class="createSessionInput" type="datetime-local" name="session_end_time" value="{{ session.sessionRawEndTime }}" required><br>
-      <span class="itemMarker">Tags:</span> <input class="createSessionInput" type="text" name="session_tags" value="{{ session.sessionTags }}" required><br>
+      <span class="itemMarker">Edit Tags:</span> <input class="createSessionInput" type="text" name="session_tags" value="{{ session.sessionTags }}" required><br>
       <br>
       <input type="submit" name="edit_session_submit" value="Make Changes To Session">
     </form>
@@ -44,7 +53,13 @@
     <span class="itemMarker">Instructor Email:</span> {{ session.sessionEmail }}<br>
     <span class="itemMarker">Start Time:</span> <span class="sessionDateTime">{{ session.sessionStartTime }}</span><br>
     <span class="itemMarker">End Time:</span> <span class="sessionDateTime">{{ session.sessionEndTime }}</span><br>
-    <span class="itemMarker">Tags:</span> {{ session.sessionTags }}<br>
+    <span class="itemMarker">Tags:</span>
+    {% for tag in tags %}
+      <form class="buttonForm" action="/tag/" method="post">
+        <input type="hidden" name="tagName" value="{{ tag }}">
+        <button class="tagButton" onclick="form.submit();">{{ tag.strip() }}</button>
+      </form>
+    {% endfor %}
     </br>
     
     <form action="/session/" method="post">

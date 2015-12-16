@@ -57,6 +57,19 @@ body {
   font-family: "Courier New";
 }
 
+.tagButton {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  font: inherit;
+}
+
+.tagButton:hover {
+  color: red;
+  margin: 0;
+  padding: 0;
+}
+
 .notification {
   color: cornflowerblue;
   font-size: 120%;
@@ -64,6 +77,12 @@ body {
 
 .cancelButton {
   background-color: snow;
+}
+
+.headerFont {
+  font-size: 130%;
+  font-weight: bold;
+  color: gray;
 }
 
 #title {

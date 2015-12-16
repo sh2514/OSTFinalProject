@@ -146,10 +146,11 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  context['sessionName'] = reservation.sessionName;
 	elif 'reserve_session_submit' in params:
 	  context['notification'] = 'You must be signed in to make a reservation!';
-  	  	
   	
   	context['present'] = datetime.datetime.now();
   	context['datetime'] = datetime;  	
+  	
+  	context['tags'] = str(context['session'].sessionTags).split(",");
   	  	
   	contents = JINJA_ENVIRONMENT.get_template('session.html').render(context)
   	self.response.write(contents)

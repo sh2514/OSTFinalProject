@@ -28,7 +28,9 @@ handlers:
   script: user.app
   login: required
 
-
+- url: /tag.*
+  script: tag.app
+  login: required
 
 - url: /nyu/ost.*
   script: ost.app
