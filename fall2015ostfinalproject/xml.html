@@ -13,19 +13,17 @@
   <hr>
 
   <code>
-    &lt?xml version="1.0" encoding="URF-8" ?&gt<br>
+    &lt?xml version="1.0" encoding="UTF-8" ?&gt<br>
     &ltrss version="2.0"&gt<br>
     &ltreservations&gt<br>
       {% for reservation in reservations %}
         {% if reservation.sessionGUID == sessionGUID and (reservation.reservationStartTime + datetime.timedelta(seconds = 60 * reservation.reservationDuration)) > present %}
           &ltreservation&gt<br>
-          
           &nbsp&nbsp&ltsessionName&gt{{reservation.sessionName}}&lt/sessionName&gt<br>
           &nbsp&nbsp&ltinstructor&gt{{reservation.sessionInstructor}}&lt/instructor&gt<br>
           &nbsp&nbsp&ltreservedBy&gt{{reservation.reservationOwnerName}}&lt/reservedBy&gt<br>
           &nbsp&nbsp&ltreservationTime&gt{{reservation.reservationStartTime}}&lt/reservationTime&gt<br>
           &nbsp&nbsp&ltduration&gt{{reservation.reservationDuration}}&lt/duration&gt<br>
-          
           &lt/reservation&gt<br>
         {% endif %}
       {% endfor %}

@@ -26,15 +26,15 @@ handlers:
   
 - url: /user.*
   script: user.app
-  login: required
 
 - url: /tag.*
   script: tag.app
-  login: required
 
 - url: /xml.*
   script: xml.app
-  login: required
+  
+- url: /.*
+  script: error.app
 
 libraries:
 - name: webapp2

@@ -1,8 +1,12 @@
 from google.appengine.ext import ndb
 
+
+
+"""Get key for datastore"""
 def sessions_key():
   return ndb.Key('Sessions', 'default_sessions')
 
+"""Representation of a session for datastore"""
 class Session(ndb.Model):
   """Model for representing an individual sessions entry."""
   sessionGUID = ndb.StringProperty(indexed = False);

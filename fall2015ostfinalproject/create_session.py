@@ -6,25 +6,26 @@ import uuid
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
-
 import jinja2
 import webapp2
 
 import login
 import sessions_datastore
 
+
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+
+
     
 class CreateSessionPageHandler(webapp2.RequestHandler):
   
   def get(self):
   	params = self.request.params
   	context = { }
-  	
-  	"""Generate log in/out information"""
   	context = login.generateLogInOutContextInfo(self, context)
   	
   	contents = JINJA_ENVIRONMENT.get_template('create_session.html').render(context)
@@ -35,8 +36,6 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   def post(self):
   	params = self.request.params
   	context = { }
-  	
-  	"""Generate log in/out information"""
   	context = login.generateLogInOutContextInfo(self, context)
   	
   	"""Query all sessions"""
@@ -61,8 +60,8 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	
   	sessionGUID = str(uuid.uuid4());
   	
+  	"""Add template values"""
   	context['notification'] = 'Session Created!';
-  	
   	context['sessionResponse'] = True;
   	context['sessionGUID'] = sessionGUID;
   	context['sessionInstructor'] = users.get_current_user().nickname();
@@ -75,6 +74,7 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	context['sessionRawStartTime'] = rawStartTimeInput;
   	context['sessionRawEndTime'] = rawEndTimeInput;
   	
+  	"""Create session for data store"""
   	session = sessions_datastore.Session(parent = sessions_datastore.sessions_key());
   	session.sessionGUID = sessionGUID;
   	session.sessionInstructor = users.get_current_user().nickname();
@@ -87,14 +87,13 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
   	session.sessionRawStartTime = rawStartTimeInput;
   	session.sessionRawEndTime = rawEndTimeInput;
 	  
+	"""Determine if new session is valid, handle appropriately"""
 	present = datetime.datetime.now();
 	if session.sessionStartTime > present and session.sessionStartTime < session.sessionEndTime:
 	  isValidNewSession = True;
-	  
 	  for sessionClone in sessions:
-	    if (session.sessionStartTime >= sessionClone.sessionStartTime and session.sessionStartTime < sessionClone.sessionEndTime) or (sessionClone.sessionEndTime > session.sessionStartTime and session.sessionEndTime <= sessionClone.sessionEndTime):
+	    if session.sessionOwner == sessionClone.sessionOwner and ((session.sessionStartTime >= sessionClone.sessionStartTime and session.sessionStartTime < sessionClone.sessionEndTime) or (sessionClone.sessionEndTime > session.sessionStartTime and session.sessionEndTime <= sessionClone.sessionEndTime)):
 	      isValidNewSession = False;
-		
 	  if isValidNewSession:
 	    session.put();
 	    context['notification'] = 'Session created!';

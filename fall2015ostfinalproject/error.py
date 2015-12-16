@@ -12,7 +12,6 @@ import webapp2
 import login
 import sessions_datastore
 import reservations_datastore
-import utilities
 
 
 
@@ -20,37 +19,28 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
-
-
     
-class MainPageHandler(webapp2.RequestHandler):
-
+    
+    
+class ErrorPageHandler(webapp2.RequestHandler):
   def get(self):
   	params = self.request.params
   	context = { }
-  	context = utilities.redirectToIndexPage(self, context);
+  	
+  	"""Generate log in/out information"""
+  	context = login.generateLogInOutContextInfo(self, context)
     
-  	contents = JINJA_ENVIRONMENT.get_template('index.html').render(context)
+  	contents = JINJA_ENVIRONMENT.get_template('error.html').render(context)
   	self.response.write(contents)
   	
   	
   	
   def post(self):
   	params = self.request.params;
-	  
-	"""Query all reservations"""
-  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(reservations_datastore.Reservation.reservationStartTime);
-  	reservations = reservations_query.fetch(1000000);
-	  
-	"""Delete the reservation specified"""
-	for reservation in reservations:
-	  if reservation.reservationGUID == params['reservationGUID']:
-	    reservation.key.delete();
-	  
 	self.get();
 	
 	
   	
 app = webapp2.WSGIApplication([
-    ('/', MainPageHandler)
+    ('/.*', ErrorPageHandler)
 ], debug = True)
