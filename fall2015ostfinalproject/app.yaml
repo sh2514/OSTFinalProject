@@ -32,12 +32,9 @@ handlers:
   script: tag.app
   login: required
 
-- url: /nyu/ost.*
-  script: ost.app
-
-- url: /sample.*
-  script: sample.app
-  # login: required
+- url: /xml.*
+  script: xml.app
+  login: required
 
 libraries:
 - name: webapp2

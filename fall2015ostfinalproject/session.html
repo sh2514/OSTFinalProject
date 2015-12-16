@@ -115,7 +115,11 @@
   <br>
   <hr>
   <br>
-  <button>Get RSS</button>
+  
+  <form action="/xml/" method="post">
+	<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
+	<input class="cancelButton" type="submit" name="RSS_Submit_Button" value="Get RSS for this session">
+  </form>
   
   {% if reservationGUID %}
     <p>

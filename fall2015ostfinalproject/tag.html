@@ -29,6 +29,14 @@
 		<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
 	    <button class="homePageSessionNameButton" onclick="form.submit();">{{ session.sessionName }}</button>
 	    </form><br>
+	    
+	    <span class="itemMarker">Instructor: </span>
+	    <form class="buttonForm" action="/user" method="post">
+		<input type="hidden" name="seekUserId" value="{{ session.sessionOwner }}">
+		<input type="hidden" name="seekUserName" value="{{ session.sessionInstructor }}">
+	    <button class="homePageUserNameButton" onclick="form.submit();">{{ session.sessionInstructor }}</button>
+	    </form><br>
+	    
   	    <span class="itemMarker">From</span> <span class="homePageSessionDateTime">{{ session.sessionStartTime }}</span> <span class="itemMarker">to</span> <span class="homePageSessionDateTime">{{ session.sessionEndTime }}</span><br>
   	    <span class="itemMarker">Tags:</span> <span class="homePageSessionTags">
 		  {% for tag in str(session.sessionTags).split(",") %}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>XML Page</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/ztoa.css">
+</head>
+<body>
+  <h1 id="title"><a id="titleLink" href="/">From Z to A</a></h1>
+  <h4 id="subtitle">... help when you need it!</h4>
+  <div id="loginButton">
+    <button onclick="location.href='{{ userLogInOutLink|safe }}'">{{ userLogInOutText }}</button>
+  </div>
+  <hr>
+
+  <code>
+    &lt?xml version="1.0" encoding="URF-8" ?&gt<br>
+    &ltrss version="2.0"&gt<br>
+    &ltreservations&gt<br>
+      {% for reservation in reservations %}
+        {% if reservation.sessionGUID == sessionGUID and (reservation.reservationStartTime + datetime.timedelta(seconds = 60 * reservation.reservationDuration)) > present %}
+          &ltreservation&gt<br>
+          
+          &nbsp&nbsp&ltsessionName&gt{{reservation.sessionName}}&lt/sessionName&gt<br>
+          &nbsp&nbsp&ltinstructor&gt{{reservation.sessionInstructor}}&lt/instructor&gt<br>
+          &nbsp&nbsp&ltreservedBy&gt{{reservation.reservationOwnerName}}&lt/reservedBy&gt<br>
+          &nbsp&nbsp&ltreservationTime&gt{{reservation.reservationStartTime}}&lt/reservationTime&gt<br>
+          &nbsp&nbsp&ltduration&gt{{reservation.reservationDuration}}&lt/duration&gt<br>
+          
+          &lt/reservation&gt<br>
+        {% endif %}
+      {% endfor %}
+    &lt/reservations&gt<br>
+    &lt/rss&gt
+  </code>
+
+</body>
+</html>
