@@ -75,7 +75,7 @@ class XMLPageHandler(webapp2.RequestHandler):
   	context['present'] = datetime.datetime.now();
   	context['datetime'] = datetime;  
   	
-  	contents = JINJA_ENVIRONMENT.get_template('xml.html').render(context)
+  	contents = JINJA_ENVIRONMENT.get_template('xmlpage.html').render(context)
   	self.response.write(contents)
   	
   	

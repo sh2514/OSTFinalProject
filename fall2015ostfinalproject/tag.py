@@ -57,7 +57,7 @@ class TagPageHandler(webapp2.RequestHandler):
   	for session in sessions:
   	  sessionTags = str(session.sessionTags).split(",");
   	  for tag in sessionTags:
-  	  	if tag == params['tagName']:
+  	  	if tag.strip() == params['tagName'].strip():
   	  	  matchingSessions.append(session);
   	
   	context['str'] = str;

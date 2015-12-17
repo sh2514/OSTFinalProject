@@ -30,8 +30,8 @@ handlers:
 - url: /tag.*
   script: tag.app
 
-- url: /xml.*
-  script: xml.app
+- url: /xmlpage.*
+  script: xmlpage.app
   
 - url: /.*
   script: error.app
