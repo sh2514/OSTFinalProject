@@ -92,7 +92,7 @@ class CreateSessionPageHandler(webapp2.RequestHandler):
 	if session.sessionStartTime > present and session.sessionStartTime < session.sessionEndTime:
 	  isValidNewSession = True;
 	  for sessionClone in sessions:
-	    if session.sessionOwner == sessionClone.sessionOwner and ((session.sessionStartTime >= sessionClone.sessionStartTime and session.sessionStartTime < sessionClone.sessionEndTime) or (sessionClone.sessionEndTime > session.sessionStartTime and session.sessionEndTime <= sessionClone.sessionEndTime)):
+	    if session.sessionOwner == sessionClone.sessionOwner and ((session.sessionStartTime >= sessionClone.sessionStartTime and session.sessionStartTime < sessionClone.sessionEndTime) or (sessionClone.sessionStartTime < session.sessionEndTime and session.sessionEndTime <= sessionClone.sessionEndTime)):
 	      isValidNewSession = False;
 	  if isValidNewSession:
 	    session.put();
