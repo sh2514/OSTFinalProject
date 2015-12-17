@@ -120,20 +120,5 @@
 	<input type="hidden" name="sessionGUID" value="{{ session.sessionGUID }}">
 	<input class="cancelButton" type="submit" name="RSS_Submit_Button" value="Get RSS for this session">
   </form>
-  
-  {% if reservationGUID %}
-    <p>
-      reservationGUID = {{ reservationGUID }}<br>
-      reservationOwnerName = {{ reservationOwnerName }}<br>
-      reservationOwner = {{ reservationOwner }}<br>
-      reservationEmail = {{ reservationEmail }}<br>
-      reservationStartTime = {{ reservationStartTime }}<br>
-      reservationDuration = {{ reservationDuration }}<br>
-      sessionGUID = {{ sessionGUID }}<br>
-      sessionInstructor = {{ sessionInstructor }}<br>
-      sessionOwner = {{ sessionOwner }}<br>
-      sessionName = {{ sessionName }}<br>
-    <p>
-  {% endif %}
 </body>
 </html>

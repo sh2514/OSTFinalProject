@@ -105,21 +105,5 @@
       {% endif %}
     {% endfor %}
   </div>
-  
-  {% for session in sessions %}
-    <p>
-    {{ session.sessionGUID }}<br>
-    {{ session.sessionOwnerNickname}}<br>
-    {{ session.sessionOwner }}<br>
-  	{{ session.sessionEmail }}<br>
-  	{{ session.sessionName }}<br>
-  	{{ session.sessionStartTime }}<br>
-  	{{ session.sessionEndTime }}<br>
-  	{{ session.sessionTags }}<br>
-  	{{ session.sessionRawStartTime }}<br>
-  	{{ session.sessionRawEndTime }}<br>
-    </p>
-  {% endfor %}
-
 </body>
 </html>
