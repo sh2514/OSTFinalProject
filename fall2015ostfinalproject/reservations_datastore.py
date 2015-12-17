@@ -9,6 +9,7 @@ def reservations_key():
 """Representation of a reservation for datastore"""
 class Reservation(ndb.Model):
   """Model for representing an individual reservations entry."""
+  reservationTime = ndb.DateTimeProperty(indexed = True);
   reservationGUID = ndb.StringProperty(indexed = True);
   reservationOwnerName = ndb.StringProperty(indexed = True);
   reservationOwner = ndb.StringProperty(indexed = True);

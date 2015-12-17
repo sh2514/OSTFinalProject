@@ -55,7 +55,7 @@ class UserPageHandler(webapp2.RequestHandler):
   	context['sessions'] = sessions;
   	
   	"""Query all reservations"""
-  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationStartTime);
+  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationTime);
   	reservations = reservations_query.fetch(1000000);
   	context['reservations'] = reservations;
   	

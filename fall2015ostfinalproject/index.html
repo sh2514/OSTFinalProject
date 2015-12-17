@@ -74,7 +74,7 @@
   
   <div id="allSessionsDiv">
     <h2>All Sessions</h2>    
-    {% for session in sessions %}
+    {% for session in sessionsByLastReservation %}
       {% if session.sessionEndTime > present %}
         <span class="homePageSession">
   	    <span class="itemMarker">Session:</span>

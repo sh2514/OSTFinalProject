@@ -59,7 +59,7 @@ class SessionPageHandler(webapp2.RequestHandler):
 		thisSession = session;
 		
 	"""Query all reservations"""
-  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(reservations_datastore.Reservation.reservationStartTime);
+  	reservations_query = reservations_datastore.Reservation.query(ancestor=reservations_datastore.reservations_key()).order(-reservations_datastore.Reservation.reservationTime);
   	reservations = reservations_query.fetch(1000000);
   	context['reservations'] = reservations;
   	    
@@ -110,6 +110,7 @@ class SessionPageHandler(webapp2.RequestHandler):
   	
 	  reservationGUID = str(uuid.uuid4());
 	  reservation = reservations_datastore.Reservation(parent = reservations_datastore.reservations_key()); 
+	  reservation.reservationTime = datetime.datetime.now();
 	  reservation.reservationGUID = reservationGUID;
 	  reservation.reservationOwnerName = user.nickname();
 	  reservation.reservationOwner = user.user_id();
