@@ -13,8 +13,27 @@
   <hr>
   
   <div>
+    <h3>Search for a session:</h3>
+    <form action="/" method="post">
+      By session name: <input type="text" name="sessionSearchText">
+      <input type="submit" name="session_search_submit" value="Search">
+    </form>
+    <br>
+    <form action="/" method="post">
+      By session start time: <input type="datetime-local" name="reservation_start_time" required>
+      and session duration: <input type="text" name="reservation_duration">
+      <input type="submit" name="session_search_by_time_submit" value="Search">
+    </form>
+    <br>
+  <div>
+  
+  <hr>
+  
+  <br>
+  <div>
     <button onclick="location.href='/create_session.html'">Create a New Session</button>
   </div>
+  <br>
   
   <div id="mySessionsDiv">
     <h2>Sessions I Teach</h2>

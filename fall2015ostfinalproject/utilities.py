@@ -51,3 +51,12 @@ def redirectToIndexPage(self, context):
   context['str'] = str;
   
   return context;
+  
+  
+
+def is_integer(s):
+  try:
+    int(s)
+    return True;
+  except ValueError:
+    return False;

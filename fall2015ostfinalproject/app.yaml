@@ -33,6 +33,9 @@ handlers:
 - url: /xmlpage.*
   script: xmlpage.app
   
+- url: /search.*
+  script: search.app
+  
 - url: /.*
   script: error.app
 

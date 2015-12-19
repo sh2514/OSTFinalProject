@@ -116,7 +116,12 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  reservation.reservationOwner = user.user_id();
 	  reservation.reservationEmail = user.email();
 	  reservation.reservationStartTime = parsedStartTimeInput;
-	  reservation.reservationDuration = int(params['reservation_duration']);
+	  validDuration = True;
+	  try:
+	    reservation.reservationDuration = int(params['reservation_duration']);
+	  except ValueError:
+	    reservation.reservationDuration = 0;
+	    validDuration = False;
 	  reservation.sessionGUID = params['sessionGUID'];
 	  reservation.sessionInstructor = params['sessionInstructor'];
 	  reservation.sessionOwner = params['sessionOwner'];
@@ -130,6 +135,9 @@ class SessionPageHandler(webapp2.RequestHandler):
 	  
 	  present = datetime.datetime.now();
 	  durationInSeconds = reservation.reservationDuration * 60;
+	  
+	  if not validDuration:
+	    context['notification'] = 'Invalid duration entered!';
 	  if alreadyReserved:
 	  	context['notification'] = 'You have already reserved the session!';
 	  elif parsedStartTimeInput > present and parsedStartTimeInput >= thisSession.sessionStartTime and durationInSeconds > 0:
